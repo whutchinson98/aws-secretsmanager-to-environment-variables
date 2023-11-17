@@ -1,0 +1,22 @@
+name: 'AWS SecretsManager to Envrionment Variables'
+description: 'Converts all the values from provided AWS SecretsManager secrets to environment variables to be used in your github workflows'
+inputs:
+  aws-access-key-id:
+    description: 'Your AWS access key id for an account with valid permissions to access the secrets you provide.'
+    required: true
+  aws-secret-access-key:
+    description: 'Your AWS secret access key.'
+    required: true
+  aws-region:
+    description: 'The region the secrets are held in'
+    default: 'us-east-1'
+    required: false
+  secret-names:
+    description: 'Comma separated string of secrets'
+    required: true
+outputs:
+  success:
+    description: 'Whether the job was a success'
+runs:
+  using: node20
+  main: dist/index.js
