@@ -1,4 +1,5 @@
 import * as core from '@actions/core';
+import { SecretFetcher } from './fetch-secret';
 
 /**
  * @description Sets up the environment grabbing necessary environment variables etc.
@@ -13,7 +14,7 @@ function setupEnvironment(): {
 } {
   const awsAccessKeyId = core.getInput('aws-access-key-id', {
     required: true,
-    trimWhitespace: true
+    trimWhitespace: true,
   });
 
   if (!awsAccessKeyId || awsAccessKeyId.length === 0) {
@@ -22,16 +23,16 @@ function setupEnvironment(): {
 
   const awsSecretKey = core.getInput('aws-secret-access-key', {
     required: true,
-    trimWhitespace: true
+    trimWhitespace: true,
   });
 
   if (!awsSecretKey || awsSecretKey.length === 0) {
     throw new Error('aws-secret-access-key input was not correctly passed in');
   }
 
-  let region = core.getInput('aws-access-key-id', {
+  let region = core.getInput('aws-region', {
     required: true,
-    trimWhitespace: true
+    trimWhitespace: true,
   });
 
   if (!region || region.length === 0) {
@@ -40,7 +41,7 @@ function setupEnvironment(): {
 
   const secrets = core.getInput('secret-names', {
     required: true,
-    trimWhitespace: true
+    trimWhitespace: true,
   });
 
   if (!secrets || secrets.length === 0) {
@@ -50,21 +51,25 @@ function setupEnvironment(): {
   return { awsAccessKeyId, awsSecretKey, region, secrets: secrets.split(',') };
 }
 
-function run() {
+async function run() {
   try {
     const { awsAccessKeyId, awsSecretKey, region, secrets } =
       setupEnvironment();
     core.info('Environment setup complete');
-    console.log(awsAccessKeyId, awsSecretKey, region, secrets);
 
-    // For each secret go through and fetch it
-    // If JSON: for each key/pair set the env accordingly
-    // If single value: do key=secret-name, value=value
-    core.exportVariable('', '');
+    const secretFetcher = new SecretFetcher({
+      awsAccessKeyId,
+      awsSecretKey,
+      region,
+    });
+
+    await secretFetcher.loadSecretValues(secrets);
+    secretFetcher.exportSecrets();
   } catch (error) {
     core.setFailed(error as Error);
   }
 }
 
 // Run the action
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 run();

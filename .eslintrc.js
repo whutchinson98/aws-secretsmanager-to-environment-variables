@@ -74,7 +74,6 @@ module.exports = {
     ],
     'no-restricted-syntax': [
       'error',
-      'ForInStatement',
       'LabeledStatement',
       'WithStatement',
     ],
@@ -86,6 +85,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
+    '@typescript-eslint/restrict-template-expressions': 'off',
   },
   env: {
     'jest/globals': true,
