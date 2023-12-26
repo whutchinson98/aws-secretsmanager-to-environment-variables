@@ -1,4 +1,4 @@
-name: 'AWS SecretsManager to Envrionment Variables'
+name: 'AWS SecretsManager to Environment Variables'
 description: 'Converts all the values from provided AWS SecretsManager secrets to environment variables to be used in your github workflows'
 inputs:
   aws-access-key-id:
