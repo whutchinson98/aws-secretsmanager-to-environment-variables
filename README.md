@@ -17,6 +17,15 @@ The aws secret access key for the user you will be using to read the secret valu
 
 The aws region of the secrets you are uploading. Defaults to `us-east-1`.
 
+### `secret-names`
+
+A comma delimited list of your AWS SecretsManager secrets whose values you want
+to be put into the github actions environment. They can be plaintext or JSON.
+
+
+**note on plain text secrets** they key for the environment variable will be
+the secret name in lowercase.
+
 ## Outputs
 
 ### `success`
