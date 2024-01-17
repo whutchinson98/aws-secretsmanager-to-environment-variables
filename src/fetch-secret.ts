@@ -75,23 +75,23 @@ export class SecretFetcher {
       // github environment
       if (isJSON) {
         for (const key in parsedSecretValue) {
-          if (this.evironmentVariableKeys.has(key.toLowerCase())) {
+          if (this.evironmentVariableKeys.has(key)) {
             core.warning(
-              `Environment variable with key ${key.toLowerCase()} is being overwritten`,
+              `Environment variable with key ${key} is being overwritten`,
             );
           }
-          this.evironmentVariableKeys.add(key.toLowerCase());
-          core.exportVariable(key.toLowerCase(), parsedSecretValue[key]);
+          this.evironmentVariableKeys.add(key);
+          core.exportVariable(key, parsedSecretValue[key]);
         }
         // The secret string is not a json so we simply export the secret
       } else {
-        if (this.evironmentVariableKeys.has(secret.Name.toLowerCase())) {
+        if (this.evironmentVariableKeys.has(secret.Name)) {
           core.warning(
-            `Environment variable with key ${secret.Name.toLowerCase()} is being overwritten`,
+            `Environment variable with key ${secret.Name} is being overwritten`,
           );
         }
-        this.evironmentVariableKeys.add(secret.Name.toLowerCase());
-        core.exportVariable(secret.Name.toLowerCase(), secret.SecretString);
+        this.evironmentVariableKeys.add(secret.Name);
+        core.exportVariable(secret.Name, secret.SecretString);
       }
     }
   }

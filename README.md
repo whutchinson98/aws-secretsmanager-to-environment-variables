@@ -24,7 +24,7 @@ to be put into the github actions environment. They can be plaintext or JSON.
 
 
 **note on plain text secrets** they key for the environment variable will be
-the secret name in lowercase.
+the secret name.
 
 ## Outputs
 
